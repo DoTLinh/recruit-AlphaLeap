@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tuyển Dụng Việc Làm Đơn Giản - Lương Tốt, Nhận Việc Ngay</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              400: '#38bdf8',
+              500: '#06b6d4',
+              600: '#0284c7',
+              900: '#0f172a',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'glow': 'glow 3s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            glow: {
+              '0%': { boxShadow: '0 0 15px rgba(6, 182, 212, 0.3)' },
+              '100%': { boxShadow: '0 0 30px rgba(168, 85, 247, 0.6)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & Lucide Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Vanilla Tilt (Effect 3D Card) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #090d16;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+
+    /* Glassmorphism Classes */
+    .glass-card {
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .glass-nav {
+      background: rgba(9, 13, 22, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-button {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(168, 85, 247, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .glass-button:hover {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.4), rgba(168, 85, 247, 0.4));
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+    /* Background Animated Orbs */
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen text-slate-100 selection:bg-cyan-500 selection:text-white">
+
+  <!-- Particle Background Canvas -->
+  <canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- Glowing Background Orbs -->
+  <div class="bg-orb w-96 h-96 bg-cyan-600 top-10 -left-20 animate-pulse-slow"></div>
+  <div class="bg-orb w-[30rem] h-[30rem] bg-purple-600 top-1/3 -right-20 animate-pulse-slow" style="animation-delay: 2s;"></div>
+  <div class="bg-orb w-96 h-96 bg-blue-600 bottom-10 left-1/3 animate-pulse-slow" style="animation-delay: 1s;"></div>
+
+  <!-- Navigation Bar -->
+  <header class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#" class="flex items-center space-x-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-cyan-500/30 group-hover:scale-105 transition-transform">
+          <i data-lucide="briefcase" class="w-5 h-5"></i>
+        </div>
+        <span class="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-cyan-400">
+          MCredit Jobs
+        </span>
+      </a>
+
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+        <a href="#jobs" class="hover:text-cyan-400 transition-colors">Danh Sách Việc</a>
+        <a href="#benefits" class="hover:text-cyan-400 transition-colors">Quyền Lợi</a>
+        <a href="#stats" class="hover:text-cyan-400 transition-colors">Thống Kê</a>
+        <a href="#faq" class="hover:text-cyan-400 transition-colors">Hỏi Đáp</a>
+      </nav>
+
+      <div>
+        <a href="#jobs" class="glass-button px-5 py-2.5 rounded-full font-semibold text-sm text-white flex items-center space-x-2">
+          <span>Tìm Việc Ngay</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative pt-36 pb-20 md:pt-48 md:pb-32 z-10 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      
+      <!-- Badge Tag -->
+      <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-card text-xs sm:text-sm text-cyan-300 font-medium mb-8 border border-cyan-500/30 shadow-lg shadow-cyan-500/10">
+        <span class="flex h-2 w-2 rounded-full bg-cyan-400 animate-ping"></span>
+        <span>Hơn 500+ Việc Làm Đơn Giản Đang Tuyển Dụng</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white mb-6 leading-tight">
+        Việc Làm Đơn Giản <br class="hidden sm:block"/>
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-500">
+          Nhận Lương Hàng Tuần
+        </span>
+      </h1>
+
+      <p class="max-w-2xl mx-auto text-base sm:text-lg text-slate-300 mb-10 leading-relaxed">
+        Không yêu cầu kinh nghiệm phức tạp. Đăng ký nhận việc nhanh chóng, môi trường linh hoạt, thu nhập hấp dẫn lên đến 15.000.000 VNĐ/tháng.
+      </p>
+
+      <!-- Search & Quick Action Bar -->
+      <div class="max-w-3xl mx-auto glass-card p-2.5 sm:p-4 rounded-2xl md:rounded-full border border-white/10 shadow-2xl mb-12">
+        <div class="flex flex-col md:flex-row items-center gap-3">
+          <div class="flex items-center w-full px-4 py-2.5 bg-slate-900/60 rounded-xl md:rounded-full border border-slate-800 focus-within:border-cyan-500 transition-colors">
+            <i data-lucide="search" class="w-5 h-5 text-slate-400 mr-3 shrink-0"></i>
+            <input type="text" id="searchInput" placeholder="Tìm theo vị trí, từ khóa (VD: Nhập liệu, Telesale, Online...)" class="w-full bg-transparent text-white placeholder-slate-500 text-sm focus:outline-none" />
+          </div>
+          <button onclick="scrollToJobs()" class="w-full md:w-auto px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm rounded-xl md:rounded-full shadow-lg shadow-cyan-500/25 transition-all hover:scale-105 shrink-0 flex items-center justify-center space-x-2">
+            <span>Tìm Kiếm</span>
+            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Highlight Features -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
+        <div class="p-4 rounded-xl glass-card flex items-center space-x-3">
+          <div class="p-2.5 rounded-lg bg-cyan-500/10 text-cyan-400">
+            <i data-lucide="clock" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-xs text-slate-400">Thời gian</h3>
+            <p class="text-sm font-semibold text-white">Linh hoạt 2-4h/ngày</p>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl glass-card flex items-center space-x-3">
+          <div class="p-2.5 rounded-lg bg-green-500/10 text-green-400">
+            <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-xs text-slate-400">Thanh toán</h3>
+            <p class="text-sm font-semibold text-white">Thanh toán đúng hạn</p>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl glass-card flex items-center space-x-3">
+          <div class="p-2.5 rounded-lg bg-purple-500/10 text-purple-400">
+            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-xs text-slate-400">Kinh nghiệm</h3>
+            <p class="text-sm font-semibold text-white">Hướng dẫn từ A-Z</p>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl glass-card flex items-center space-x-3">
+          <div class="p-2.5 rounded-lg bg-pink-500/10 text-pink-400">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-xs text-slate-400">Uy tín</h3>
+            <p class="text-sm font-semibold text-white">MCredit Bảo Chứng</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Job List Section -->
+  <section id="jobs" class="relative py-20 z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
+            Các Vị Trí Đang Tuyển Dụng
+          </h2>
+          <p class="text-slate-400 text-sm sm:text-base">
+            Chọn công việc phù hợp với thời gian và khả năng của bạn để ứng tuyển ngay.
+          </p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="mt-6 md:mt-0 flex flex-wrap gap-2" id="filterContainer">
+          <button onclick="filterJobs('all')" class="filter-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all glass-card bg-cyan-500/20 text-cyan-300 border-cyan-500/50">
+            Tất Cả
+          </button>
+          <button onclick="filterJobs('online')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all glass-card text-slate-400 hover:text-white hover:bg-slate-800">
+            Làm Online
+          </button>
+          <button onclick="filterJobs('parttime')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all glass-card text-slate-400 hover:text-white hover:bg-slate-800">
+            Bán Thời Gian
+          </button>
+          <button onclick="filterJobs('fulltime')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all glass-card text-slate-400 hover:text-white hover:bg-slate-800">
+            Toàn Thời Gian
+          </button>
+        </div>
+      </div>
+
+      <!-- Jobs Grid -->
+      <div id="jobsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Javascript renders jobs here -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="hidden text-center py-16">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center text-slate-500">
+          <i data-lucide="search-x" class="w-8 h-8"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-300">Không tìm thấy công việc phù hợp</h3>
+        <p class="text-slate-500 text-sm mt-1">Thử thay đổi từ khóa hoặc bộ lọc của bạn</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section id="stats" class="relative py-16 z-10 border-y border-slate-800/80 bg-slate-950/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="p-6 rounded-2xl glass-card">
+          <p class="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 counter" data-target="1500">0</p>
+          <p class="text-xs sm:text-sm text-slate-400 font-medium mt-2">Ứng viên đã nhận việc</p>
+        </div>
+        <div class="p-6 rounded-2xl glass-card">
+          <p class="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 counter" data-target="98">0</p>
+          <p class="text-xs sm:text-sm text-slate-400 font-medium mt-2">% Tỷ lệ hài lòng (%)</p>
+        </div>
+        <div class="p-6 rounded-2xl glass-card">
+          <p class="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 counter" data-target="24">0</p>
+          <p class="text-xs sm:text-sm text-slate-400 font-medium mt-2">Giờ xử lý hồ sơ (Giờ)</p>
+        </div>
+        <div class="p-6 rounded-2xl glass-card">
+          <p class="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 counter" data-target="50">0</p>
+          <p class="text-xs sm:text-sm text-slate-400 font-medium mt-2">+ Vị trí tuyển dụng</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section id="benefits" class="relative py-20 z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Vì Sao Nên Chọn Chúng Tôi?</h2>
+        <p class="text-slate-400">Chúng tôi tạo điều kiện thuận lợi nhất để bạn tăng thêm thu nhập mỗi ngày mà không bị gò bó.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="p-8 rounded-3xl glass-card hover:border-cyan-500/40 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-6">
+            <i data-lucide="zap" class="w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Nhận Việc Ngay</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Quy trình ứng tuyển tối giản. Không yêu cầu các bằng cấp rườm rà, đăng ký xong có thể bắt đầu công việc ngay trong ngày.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-card hover:border-purple-500/40 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center mb-6">
+            <i data-lucide="smile" class="w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Linh Hoạt Tuyệt Đối</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Bạn tự chọn thời gian làm việc phù hợp với lịch cá nhân. Thích hợp cho sinh viên, mẹ bỉm sữa hoặc người muốn làm thêm.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-card hover:border-pink-500/40 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-pink-500/10 text-pink-400 flex items-center justify-center mb-6">
+            <i data-lucide="badge-dollar-sign" class="w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Thu Nhập Rõ Ràng</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Lương thưởng minh bạch, tính theo doanh số hoặc thời gian làm việc. Thanh toán chuyển khoản ngân hàng sòng phẳng đúng hẹn.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="relative py-20 z-10 bg-slate-950/30">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-extrabold text-white">Câu Hỏi Thường Gặp</h2>
+      </div>
+
+      <div class="space-y-4">
+        <div class="glass-card rounded-2xl p-6 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base sm:text-lg font-bold text-white">Tôi có mất phí gì khi ứng tuyển không?</h3>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transform transition-transform duration-300"></i>
+          </div>
+          <p class="text-slate-400 text-sm mt-3 hidden">
+            Hoàn toàn KHÔNG. Mọi quy trình ứng tuyển và nhận việc đều hoàn toàn miễn phí 100%.
+          </p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base sm:text-lg font-bold text-white">Chưa có kinh nghiệm có làm được không?</h3>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transform transition-transform duration-300"></i>
+          </div>
+          <p class="text-slate-400 text-sm mt-3 hidden">
+            Được nhé! Tất cả các công việc đơn giản này đều có đội ngũ quản lý hỗ trợ và hướng dẫn chi tiết tận tình từ đầu.
+          </p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base sm:text-lg font-bold text-white">Bao lâu thì tôi nhận được hồi đáp sau khi ứng tuyển?</h3>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transform transition-transform duration-300"></i>
+          </div>
+          <p class="text-slate-400 text-sm mt-3 hidden">
+            Bộ phận tuyển dụng sẽ xem xét thông tin và liên hệ lại với bạn trong vòng 24h làm việc.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Banner CTA -->
+  <section class="relative py-20 z-10">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="relative overflow-hidden rounded-3xl p-10 md:p-16 text-center glass-card border border-cyan-500/30">
+        <div class="relative z-10">
+          <h2 class="text-3xl sm:text-5xl font-black text-white mb-6">Sẵn Sàng Bắt Đầu Công Việc Ngay Hôm Nay?</h2>
+          <p class="text-slate-300 max-w-xl mx-auto mb-8 text-base sm:text-lg">
+            Hàng trăm vị trí hấp dẫn đang chờ bạn. Hãy chọn công việc phù hợp và bấm ứng tuyển ngay!
+          </p>
+          <a href="#jobs" class="inline-flex items-center space-x-2 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-extrabold text-base shadow-xl shadow-cyan-500/30 transition-all hover:scale-105">
+            <span>Khám Phá Việc Làm</span>
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative z-10 py-8 border-t border-slate-800/80 text-center text-xs text-slate-500">
+    <p>© 2026 MCredit Recruitment. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Data Danh sách Công việc - Mỗi job chứa link truy cập applyUrl riêng biệt
+    const jobsData = [
+      {
+        id: 1,
+        title: "Cộng Tác Viên Tư Vấn & Nhập Liệu",
+        category: "online",
+        categoryLabel: "Làm Online",
+        salary: "6.000.000 - 10.000.000đ",
+        location: "Toàn Quốc (Toàn thời gian / Parttime)",
+        time: "Linh hoạt (3-4h/ngày)",
+        tags: ["Không cần kinh nghiệm", "Nhận lương tuần", "Làm tại nhà"],
+        hot: true,
+        desc: "Tiếp nhận dữ liệu khách hàng có sẵn, nhập liệu lên hệ thống và hỗ trợ giải đáp thông tin cơ bản cho khách hàng.",
+        applyUrl: "https://tuyendungmcredit.ainavi.com.vn/vi/jobs/R0Qr3q"
+      },
+      {
+        id: 2,
+        title: "Nhân Viên Hỗ Trợ Đăng Ký Hồ Sơ",
+        category: "parttime",
+        categoryLabel: "Bán Thời Gian",
+        salary: "5.000.000 - 8.000.000đ",
+        location: "Hà Nội / TP.HCM",
+        time: "Ca sáng / Ca chiều",
+        tags: ["Ưu tiên sinh viên", "Thưởng tuần", "Môi trường năng động"],
+        hot: true,
+        desc: "Hướng dẫn khách hàng hoàn thiện hồ sơ đăng ký theo biểu mẫu có sẵn. Công việc đơn giản, được đào tạo kĩ càng.",
+        applyUrl: "https://tuyendungmcredit.ainavi.com.vn/vi/jobs/R0Qr3q?job=2"
+      },
+      {
+        id: 3,
+        title: "Chăm Sóc Khách Hàng Qua Điện Thoại",
+        category: "fulltime",
+        categoryLabel: "Toàn Thời Gian",
+        salary: "8.000.000 - 12.000.000đ",
+        location: "TP. Hồ Chí Minh",
+        time: "8:00 - 17:00 (Thứ 2 - Thứ 6)",
+        tags: ["Máy tính công ty", "Thưởng KPIs", "Bảo hiểm đầy đủ"],
+        hot: false,
+        desc: "Gọi điện theo danh sách khách hàng thân thiết để nhắc lịch hẹn và cập nhật thông tin dịch vụ mới.",
+        applyUrl: "https://tuyendungmcredit.ainavi.com.vn/vi/jobs/R0Qr3q?job=3"
+      },
+      {
+        id: 4,
+        title: "Cộng Tác Viên Đăng Bài & Tìm Kiếm Khách Hàng",
+        category: "online",
+        categoryLabel: "Làm Online",
+        salary: "4.000.000 - 9.000.000đ",
+        location: "Toàn Quốc",
+        time: "Tự do chọn thời gian",
+        tags: ["Làm trên điện thoại", "Hoa hồng cao", "Không ép chỉ tiêu"],
+        hot: false,
+        desc: "Sử dụng các kênh mạng xã hội (Facebook, Zalo, TikTok) đăng bài giới thiệu chương trình theo mẫu có sẵn.",
+        applyUrl: "https://tuyendungmcredit.ainavi.com.vn/vi/jobs/R0Qr3q?job=4"
+      },
+      {
+        id: 5,
+        title: "Nhân Viên Hỗ Trợ Khách Hàng Tại Quầy",
+        category: "fulltime",
+        categoryLabel: "Toàn Thời Gian",
+        salary: "7.000.000 - 11.000.000đ",
+        location: "Đà Nẵng / Cần Thơ",
+        time: "Xoay ca linh hoạt",
+        tags: ["Đồng phục miễn phí", "Môi trường chuyên nghiệp"],
+        hot: false,
+        desc: "Đón tiếp khách hàng đến văn phòng, hỗ trợ lấy số thứ tự và hướng dẫn vị trí làm việc.",
+        applyUrl: "https://tuyendungmcredit.ainavi.com.vn/vi/jobs/R0Qr3q?job=5"
+      },
+      {
+        id: 6,
+        title: "Cộng Tác Viên Xử Lý Văn Bản Cơ Bản",
+        category: "online",
+        categoryLabel: "Làm Online",
+        salary: "5.000.000 - 7.500.000đ",
+        location: "Toàn Quốc",
+        time: "Tự do",
+        tags: ["Yêu cầu Word/Excel", "Làm tại nhà"],
+        hot: true,
+        desc: "Rà soát lỗi chính tả và chuẩn hóa định dạng các hợp đồng, giấy tờ theo yêu cầu của trưởng bộ phận.",
+        applyUrl: "https://tuyendungmcredit.ainavi.com.vn/vi/jobs/R0Qr3q?job=6"
+      }
+    ];
+
+    // Render danh sách công việc
+    function renderJobs(jobs) {
+      const grid = document.getElementById('jobsGrid');
+      const emptyState = document.getElementById('emptyState');
+      
+      grid.innerHTML = '';
+
+      if (jobs.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      jobs.forEach(job => {
+        const card = document.createElement('div');
+        card.className = "glass-card rounded-3xl p-6 transition-all duration-300 hover:border-cyan-500/50 flex flex-col justify-between relative group";
+        card.setAttribute('data-tilt', '');
+        card.setAttribute('data-tilt-max', '6');
+        card.setAttribute('data-tilt-speed', '400');
+        card.setAttribute('data-tilt-glare', 'true');
+        card.setAttribute('data-tilt-max-glare', '0.15');
+
+        card.innerHTML = `
+          <div>
+            <!-- Top Card Badges -->
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                ${job.categoryLabel}
+              </span>
+              ${job.hot ? `
+                <span class="flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse">
+                  <i data-lucide="flame" class="w-3.5 h-3.5"></i>
+                  <span>Tuyển Gấp</span>
+                </span>
+              ` : ''}
+            </div>
+
+            <!-- Job Title with Link -->
+            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-cyan-300 transition-colors">
+              <a href="${job.applyUrl}" target="_blank" rel="noopener noreferrer" class="hover:underline">
+                ${job.title}
+              </a>
+            </h3>
+
+            <!-- Salary Tag -->
+            <div class="flex items-center text-emerald-400 font-extrabold text-lg mb-4">
+              <i data-lucide="banknote" class="w-5 h-5 mr-2 shrink-0"></i>
+              <span>${job.salary}</span>
+            </div>
+
+            <!-- Info List -->
+            <div class="space-y-2 mb-6 text-xs text-slate-300">
+              <div class="flex items-center">
+                <i data-lucide="map-pin" class="w-4 h-4 text-slate-500 mr-2 shrink-0"></i>
+                <span>${job.location}</span>
+              </div>
+              <div class="flex items-center">
+                <i data-lucide="clock" class="w-4 h-4 text-slate-500 mr-2 shrink-0"></i>
+                <span>${job.time}</span>
+              </div>
+            </div>
+
+            <p class="text-slate-400 text-xs line-clamp-2 leading-relaxed mb-6">
+              ${job.desc}
+            </p>
+
+            <!-- Tags -->
+            <div class="flex flex-wrap gap-1.5 mb-6">
+              ${job.tags.map(tag => `<span class="px-2.5 py-1 rounded-md bg-slate-800/80 text-slate-400 text-[11px] font-medium">${tag}</span>`).join('')}
+            </div>
+          </div>
+
+          <!-- Bottom Action Direct Link Tag <a> -->
+          <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between">
+            <span class="text-xs text-slate-500">Miễn phí 100%</span>
+            <a href="${job.applyUrl}" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs flex items-center space-x-2 transition-all hover:scale-105 shadow-md shadow-cyan-500/20">
+              <span>Ứng Tuyển Ngay</span>
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      // Re-init lucide icons for dynamic elements
+      lucide.createIcons();
+
+      // Re-init VanillaTilt
+      if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"));
+      }
+    }
+
+    // Filter Functionality
+    let currentCategory = 'all';
+    function filterJobs(category) {
+      currentCategory = category;
+      
+      // Update Active Button Style
+      const buttons = document.querySelectorAll('#filterContainer .filter-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/50');
+        btn.classList.add('text-slate-400');
+      });
+
+      event.currentTarget.classList.add('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/50');
+      event.currentTarget.classList.remove('text-slate-400');
+
+      applySearchAndFilter();
+    }
+
+    // Search Input Functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', applySearchAndFilter);
+
+    function applySearchAndFilter() {
+      const query = searchInput.value.toLowerCase().trim();
+      
+      const filtered = jobsData.filter(job => {
+        const matchesCategory = currentCategory === 'all' || job.category === currentCategory;
+        const matchesSearch = job.title.toLowerCase().includes(query) || 
+                              job.desc.toLowerCase().includes(query) ||
+                              job.tags.some(t => t.toLowerCase().includes(query));
+        return matchesCategory && matchesSearch;
+      });
+
+      renderJobs(filtered);
+    }
+
+    function scrollToJobs() {
+      document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // FAQ Toggle Function
+    function toggleFaq(element) {
+      const p = element.querySelector('p');
+      const icon = element.querySelector('i');
+      
+      p.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    }
+
+    // Particle Background Effect
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const particles = [];
+    const particleCount = 40;
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2 + 0.5,
+        color: Math.random() > 0.5 ? 'rgba(6, 182, 212, ' : 'rgba(168, 85, 247, ',
+        alpha: Math.random() * 0.5 + 0.2,
+        speedX: (Math.random() - 0.5) * 0.4,
+        speedY: (Math.random() - 0.5) * 0.4
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(p => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + p.alpha + ')';
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // Counter Animation on Scroll
+    let animated = false;
+    window.addEventListener('scroll', () => {
+      const statsSection = document.getElementById('stats');
+      if (!statsSection) return;
+      const rect = statsSection.getBoundingClientRect();
+      
+      if (rect.top <= window.innerHeight && !animated) {
+        animated = true;
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+          const target = +counter.getAttribute('data-target');
+          let count = 0;
+          const speed = target / 50;
+
+          const updateCount = () => {
+            count += speed;
+            if (count < target) {
+              counter.innerText = Math.ceil(count).toLocaleString();
+              setTimeout(updateCount, 30);
+            } else {
+              counter.innerText = target.toLocaleString();
+            }
+          };
+          updateCount();
+        });
+      }
+    });
+
+    // Initial Render
+    renderJobs(jobsData);
+  </script>
+</body>
+</html>
