@@ -1021,11 +1021,11 @@ html{scrollbar-color:#7fb4f5 #eaf4ff}
  .ap-radio span{padding:10px 14px}
 }
 
-/* v9: chừa chỗ cho badge "Powered by Netlify" (góc phải dưới) */
-:root{--nl:74px}
+/* v14: đã gỡ badge Netlify nên --nl = 0 (không chừa khoảng trống) */
+:root{--nl:0px}
 .fab-apply{bottom:calc(clamp(14px,2.2vw,30px) + var(--nl) + env(safe-area-inset-bottom,0px))!important}
 .to-top{bottom:calc(clamp(14px,2.2vw,30px) + var(--nl) + 64px + env(safe-area-inset-bottom,0px))!important}
-@media(max-width:700px){:root{--nl:68px}.to-top{bottom:calc(14px + var(--nl) + 58px + env(safe-area-inset-bottom,0px))!important}.fab-apply{bottom:calc(14px + var(--nl) + env(safe-area-inset-bottom,0px))!important}}
+@media(max-width:700px){:root{--nl:0px}.to-top{bottom:calc(14px + var(--nl) + 58px + env(safe-area-inset-bottom,0px))!important}.fab-apply{bottom:calc(14px + var(--nl) + env(safe-area-inset-bottom,0px))!important}}
 
 /* v10: form ứng tuyển gọn – ít cuộn */
 #modal.apply-modal{width:min(860px,100%)!important;max-width:860px!important;max-height:calc(100vh - 28px);max-height:calc(100dvh - 28px);border-radius:22px}
@@ -1601,18 +1601,18 @@ window.JOB_LISTINGS = [
    {
     "heading": "Vị trí của bạn trong Mcredit",
     "paragraphs": [
-     "Đội quản trị cơ sở dữ liệu vận hành các hệ quản trị cơ sở dữ liệu của Mcredit – Oracle, SQL Server, PostgreSQL, MySQL – bảo đảm hệ thống luôn ổn định, an toàn và sẵn sàng cao. Bạn cùng các DBA giám sát, sao lưu, tối ưu hiệu năng và đồng hành với đội phát triển trong thiết kế cơ sở dữ liệu."
+     "Mọi hồ sơ vay, giao dịch và dữ liệu khách hàng của Mcredit đều nằm trên những cơ sở dữ liệu mà đội DBA giữ cho luôn ổn định, an toàn và sẵn sàng cao. Bạn cùng các DBA vận hành, tối ưu và tự động hóa cơ sở dữ liệu trên cả hạ tầng tại chỗ (on-premise) lẫn điện toán đám mây AWS."
     ]
    },
    {
     "heading": "Những việc bạn sẽ trực tiếp đảm nhận",
     "bullets": [
-     "Tham gia quản trị, giám sát các hệ quản trị cơ sở dữ liệu (Oracle, SQL Server, PostgreSQL, MySQL, MongoDB) để hệ thống vận hành ổn định và sẵn sàng cao.",
+     "Tham gia cấu hình, triển khai cơ sở dữ liệu trên AWS: các dịch vụ cơ sở dữ liệu, máy chủ EC2, mạng VPC và phân quyền IAM.",
+     "Viết script tự động hóa các tác vụ quản trị như sao lưu, kiểm tra tình trạng và cảnh báo hệ thống.",
+     "Tham gia vận hành, giám sát các cơ sở dữ liệu (MySQL, PostgreSQL, MongoDB…); theo dõi hiệu năng, tài nguyên và phát hiện sớm rủi ro.",
      "Thực hiện sao lưu, phục hồi dữ liệu (backup/restore); tham gia kiểm thử các phương án replication, failover.",
-     "Theo dõi hiệu năng, tài nguyên hệ thống; phát hiện và cảnh báo sớm các rủi ro tiềm ẩn.",
-     "Cùng đội phát triển tối ưu truy vấn SQL, chỉ mục (index) và phân vùng dữ liệu (partitioning).",
-     "Tham gia quản lý quyền truy cập, bảo mật dữ liệu và kiểm soát nhật ký truy cập theo quy định.",
-     "Xây dựng tài liệu kỹ thuật, quy trình vận hành (SOP), checklist quản trị; viết script tự động hóa các tác vụ quản trị."
+     "Cùng đội phát triển phân tích và tối ưu truy vấn SQL, chỉ mục (index).",
+     "Tham gia quản lý quyền truy cập, bảo mật dữ liệu, kiểm soát nhật ký truy cập; xây dựng tài liệu kỹ thuật và quy trình vận hành (SOP)."
     ]
    }
   ],
@@ -1620,19 +1620,18 @@ window.JOB_LISTINGS = [
    {
     "bullets": [
      "Sinh viên Đại học năm cuối hoặc đã tốt nghiệp (dưới 1 năm kinh nghiệm) ngành Công nghệ thông tin, Khoa học máy tính, Hệ thống thông tin, Kỹ thuật phần mềm hoặc ngành liên quan.",
+     "Yêu thích làm việc với cơ sở dữ liệu và hạ tầng cloud; có hứng thú chủ động khám phá các công nghệ dữ liệu mới.",
      "Có kết quả học tập và nghiên cứu nổi bật.",
      "Sẵn sàng làm việc toàn thời gian theo giờ hành chính trong 6 tháng, bắt đầu từ ngày 14/12/2026.",
-     "Thành thạo SQL và vững kiến thức cơ sở dữ liệu: mô hình dữ liệu, transaction, locking, index; đã làm việc với ít nhất một hệ quản trị cơ sở dữ liệu (Oracle, SQL Server, PostgreSQL hoặc MySQL).",
-     "Hiểu cơ bản hệ điều hành Linux/Windows và viết được script Bash, Python hoặc PowerShell.",
-     "Đã tự cài đặt, cấu hình hoặc tối ưu một cơ sở dữ liệu trong đồ án, lab cá nhân và kể được cụ thể cách bạn làm.",
-     "Cẩn thận, tỉ mỉ khi thao tác trên dữ liệu thật và có trách nhiệm với sự an toàn của hệ thống.",
-     "Yêu thích làm việc với cơ sở dữ liệu và hệ thống; có hứng thú với việc giữ cho dữ liệu luôn an toàn, sẵn sàng và truy vấn thật nhanh."
+     "Tự tin với SQL và nền tảng cơ sở dữ liệu quan hệ; đã thực hành với MySQL hoặc PostgreSQL (làm quen MongoDB là một lợi thế).",
+     "Đã tự tìm hiểu AWS (VPC, EC2, IAM và các dịch vụ cơ sở dữ liệu), tự dựng một cơ sở dữ liệu trên cloud hoặc lab cá nhân và giải thích được cách bạn cấu hình mạng, phân quyền, sao lưu.",
+     "Tư duy logic, cẩn thận đến từng chi tiết khi cấu hình hệ thống và có trách nhiệm cao với dữ liệu của hệ thống."
     ]
    },
    {
     "heading": "Điểm cộng",
     "paragraphs": [
-     "Bạn sẽ nổi bật hơn nếu đã đọc execution plan và tối ưu truy vấn; biết MongoDB, Redis hoặc dịch vụ cơ sở dữ liệu trên cloud (AWS, Azure, GCP); quen công cụ giám sát (Prometheus, Grafana, Zabbix); có kiến thức ETL, Data Warehouse; có chứng chỉ Oracle OCA hoặc tương đương."
+     "Bạn sẽ nổi bật hơn nếu đã viết script Bash hoặc Python tự động hóa tác vụ trên Linux; sở hữu chứng chỉ AWS Certified Cloud Practitioner hoặc AWS Certified Solutions Architect – Associate."
     ]
    }
   ],
@@ -1640,8 +1639,8 @@ window.JOB_LISTINGS = [
    {
     "heading": "Tại vị trí này",
     "bullets": [
-     "Bạn làm việc với các hệ quản trị cơ sở dữ liệu phổ biến trong doanh nghiệp tài chính (Oracle, SQL Server, PostgreSQL) – bộ kỹ năng ít nơi đào tạo chuyên sâu.",
-     "Bạn hiểu cách một hệ thống dữ liệu quan trọng được bảo vệ, sao lưu và giữ ổn định – nền tảng cho lộ trình Database Administrator, Data Platform Engineer hoặc DevOps."
+     "Bạn tự tay vận hành và tự động hóa cơ sở dữ liệu thật trên AWS – trải nghiệm thực chiến giúp bạn sẵn sàng chinh phục các chứng chỉ AWS.",
+     "Bạn hiểu cách một hệ thống dữ liệu tài chính quan trọng được bảo vệ và giữ ổn định – nền tảng để định hình con đường riêng: Database Administrator, Cloud Engineer hoặc DevOps."
     ]
    }
   ],
